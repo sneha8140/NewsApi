@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import NewsItem from "./NewsItem";
-import axios from "axios";
 
+const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
 const News = ({ category, country }) => {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
-    let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=ff09e141d73a4c32a0920a58492d00b4`;
-    fetch(url).then(async (data) => {
-      data = await data.json();
-      setArticles(data.articles);
-    });
+    let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`;
+    fetch(url)
+      .then(async (data) => {
+        data = await data.json();
+        setArticles(data.articles);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [category, country]);
 
   return (
